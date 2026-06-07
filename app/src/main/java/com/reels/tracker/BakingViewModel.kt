@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.reels.tracker
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel

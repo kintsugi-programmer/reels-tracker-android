@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.reels.tracker
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
