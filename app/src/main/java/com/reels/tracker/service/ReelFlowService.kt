@@ -4,6 +4,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.accessibilityservice.AccessibilityService
 import com.reels.tracker.data.ReelDatabase
 import com.reels.tracker.data.ReelEntry
+import com.reels.tracker.overlay.OverlayPillManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,6 +12,12 @@ import kotlinx.coroutines.launch
 class ReelFlowService : AccessibilityService() {
     private val scope = CoroutineScope(Dispatchers.IO)
     private var lastScrollTime = 0L
+    private lateinit var overlayPillManager: OverlayPillManager
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        overlayPillManager = OverlayPillManager(this)
+    }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
@@ -19,6 +26,7 @@ class ReelFlowService : AccessibilityService() {
                 val pkg = event.packageName?.toString() ?: ""
                 if (isReelPlatform(pkg)) {
                     saveReel(pkg)
+                    overlayPillManager.showPill()
                     lastScrollTime = currentTime
                 }
             }
